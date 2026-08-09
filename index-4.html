@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divya Deep | Grocery Store</title>
+<style>
+:root{--green:#087a45;--green2:#0a9656;--cream:#fff8df;--bg:#f5f7f5;--dark:#173c2a}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#172018}button,input,select{font:inherit}
+header{background:var(--green);color:#fff;padding:13px 5%;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:10}.logo{font-size:25px;font-weight:900;white-space:nowrap}.logo span{color:#ffd34e}
+.search{flex:1;display:flex;background:white;border-radius:9px;overflow:hidden}.search input{flex:1;border:0;outline:0;padding:12px}.search button{border:0;background:#ffd34e;padding:0 18px}.btn{border:0;border-radius:8px;padding:11px 14px;font-weight:800;cursor:pointer}
+nav{background:white;padding:12px 5%;display:flex;gap:26px;box-shadow:0 2px 8px #0001;overflow:auto}nav a{color:#333;text-decoration:none;font-weight:700;white-space:nowrap}
+.hero{margin:22px 5%;padding:38px;border-radius:20px;background:linear-gradient(110deg,#dff7e8,#fff3bd);display:flex;align-items:center;justify-content:space-between}.hero h1{font-size:42px;margin:0 0 10px}.hero p{font-size:18px}.primary{background:var(--green);color:#fff;border:0;border-radius:8px;padding:12px 20px;font-weight:800;cursor:pointer}.art{font-size:80px}
+section{padding:5px 5% 28px}h2{margin:15px 0}.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px}.cat{background:#fff;padding:18px;border-radius:14px;text-align:center;cursor:pointer;box-shadow:0 2px 8px #0000000b}.cat div{font-size:38px}.cat b{display:block;margin-top:7px}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:17px}.card{background:#fff;padding:14px;border-radius:14px;box-shadow:0 2px 10px #0000000d}.pic{height:150px;background:#f0f8f2;border-radius:11px;display:grid;place-items:center;font-size:70px}.card h3{margin:10px 0 5px;font-size:17px}.muted{color:#68736c;font-size:13px}.price{font-size:19px;font-weight:900;margin-top:8px}.old{text-decoration:line-through;color:#999;font-size:12px}.add{width:100%;margin-top:12px;padding:10px;border:1px solid var(--green);background:#fff;color:var(--green);border-radius:7px;font-weight:800;cursor:pointer}.add:hover{background:var(--green);color:#fff}
+footer{background:var(--dark);color:#fff;padding:30px 5%;margin-top:15px}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:center;justify-content:center}.box{background:#fff;width:min(560px,94%);max-height:90vh;overflow:auto;border-radius:16px;padding:24px}.close{float:right;background:none;border:0;font-size:27px;cursor:pointer}.field{width:100%;padding:11px;margin:6px 0;border:1px solid #ccd4ce;border-radius:8px}.cartrow{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #eee}.qty button{padding:4px 9px;background:white;border:1px solid #bbb;border-radius:5px}.badge{background:#e6f6ec;color:var(--green);padding:4px 8px;border-radius:20px;font-size:11px}.note{background:var(--cream);padding:10px;border-radius:8px;margin:10px 0;font-size:13px}
+@media(max-width:700px){header{flex-wrap:wrap}.search{order:3;flex-basis:100%}.hero{padding:25px}.hero h1{font-size:30px}.art{font-size:55px}}
+
+/* Divya Deep dark theme */
+body{background:#0d1410;color:#edf5ef}
+header{background:#071f14}.search{background:#18231d}.search input{background:#18231d;color:#fff}.search input::placeholder{color:#9aa89f}.search button{background:#d9b83f}
+nav{background:#111b16;box-shadow:0 2px 8px #0008}nav a{color:#dce7df}
+.hero{background:linear-gradient(110deg,#102d20,#272612);border:1px solid #294635}.hero p{color:#c8d4cc}
+.cat,.card,.box{background:#151f19;color:#edf5ef;box-shadow:0 2px 12px #0008}.pic{background:#0e2117}
+.muted{color:#a7b5ac}.old{color:#8b968f}.add{background:#151f19;color:#70d69c;border-color:#2da868}.add:hover{background:#178a51;color:#fff}
+.field{background:#101812;color:#fff;border-color:#3b4a41}.field::placeholder{color:#8e9b93}
+.modal{background:#000b}.cartrow{border-color:#2b3730}.qty button{background:#172019;color:#fff;border-color:#526158}
+.badge{background:#183b28;color:#7ee0a8}.note{background:#2a2814;color:#efe5a9}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Divya <span>Deep</span></div>
+<div class="search"><input id="search" placeholder="Search milk, curd, biscuits, rice, soap..." oninput="render()"><button>🔎</button></div>
+<button class="btn" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button>
+</header>
+<nav><a href="#">Home</a><a href="#categories">Categories</a><a href="#products">Products</a><a href="#" onclick="openOrders();return false">📦 Orders</a><a href="#" onclick="openAdmin();return false">⚙️ Admin</a></nav>
+
+<div class="hero"><div><h1>Daily essentials<br>at Divya Deep.</h1><p>Simple grocery shopping with prices you choose.</p><button class="primary" onclick="document.getElementById('products').scrollIntoView()">Shop Now</button></div><div class="art">🥛🍚🧼</div></div>
+
+<section id="categories"><h2>Categories</h2><div class="cats">
+<div class="cat" onclick="setCat('Dairy')"><div>🥛</div><b>Dairy</b></div>
+<div class="cat" onclick="setCat('Biscuits')"><div>🍪</div><b>Biscuits</b></div>
+<div class="cat" onclick="setCat('Staples')"><div>🍚</div><b>Rice & Staples</b></div>
+<div class="cat" onclick="setCat('Chocolates')"><div>🍫</div><b>Chocolates</b></div>
+<div class="cat" onclick="setCat('Dish Cleaners')"><div>🧽</div><b>Dish Cleaners</b></div>
+<div class="cat" onclick="setCat('Bathing Soap')"><div>🧼</div><b>Bathing Soap</b></div>
+</div></section>
+
+<section id="products"><h2>Products <span id="badge"></span></h2><div class="products" id="grid"></div></section>
+<footer><h2>Divya Deep</h2><p>Your everyday essentials store.</p><p>© 2026 Divya Deep</p></footer>
+
+<div class="modal" id="cartModal"><div class="box"><button class="close" onclick="closeM('cartModal')">×</button><h2>🛒 Your Cart</h2><div id="cart"></div><h3 id="total"></h3><button class="primary" style="width:100%" onclick="checkout()">Proceed to Checkout</button></div></div>
+
+<div class="modal" id="checkoutModal"><div class="box"><button class="close" onclick="closeM('checkoutModal')">×</button><h2>📦 Checkout</h2><input class="field" id="name" placeholder="Full name"><input class="field" id="phone" placeholder="Mobile number"><textarea class="field" id="address" placeholder="Delivery address"></textarea><select class="field"><option>Cash on Delivery</option><option>UPI (Demo)</option><option>Card (Demo)</option></select><h3 id="amount"></h3><button class="primary" style="width:100%" onclick="placeOrder()">Place Order</button></div></div>
+
+<div class="modal" id="ordersModal"><div class="box"><button class="close" onclick="closeM('ordersModal')">×</button><h2>📦 Orders</h2><div id="orders"></div></div></div>
+
+<div class="modal" id="adminModal"><div class="box"><button class="close" onclick="closeM('adminModal')">×</button><h2>⚙️ Admin — Set Your Prices</h2><div class="note">You control the prices. Change any product price below and add new products whenever you want.</div><div id="admin"></div><hr><h3>Add Product</h3><input class="field" id="newName" placeholder="Product name"><input class="field" id="newPrice" type="number" placeholder="Price in ₹"><select class="field" id="newCat"><option>Dairy</option><option>Biscuits</option><option>Staples</option><option>Chocolates</option><option>Dish Cleaners</option><option>Bathing Soap</option></select><input class="field" id="newEmoji" placeholder="Emoji"><button class="primary" onclick="addProduct()">Add Product</button></div></div>
+
+<script>
+const defaults=[
+["Milk 500ml","Dairy",33,"🥛"],
+["Curd 500g","Dairy",50,"🥣"],
+["Biscuits ₹5 Pack","Biscuits",5,"🍪"],
+["Biscuits ₹10 Pack","Biscuits",10,"🍪"],
+["Rice 1kg","Staples",70,"🍚"],
+["Atta 1kg","Staples",70,"🌾"],
+["Dairy Milk ₹5","Chocolates",5,"🍫"],
+["Dairy Milk ₹10","Chocolates",10,"🍫"],
+["Dairy Milk ₹20","Chocolates",20,"🍫"],
+["Dairy Milk ₹45","Chocolates",45,"🍫"],
+["Dairy Milk ₹100","Chocolates",100,"🍫"],
+["5 Star ₹5","Chocolates",5,"🍫"],
+["5 Star ₹10","Chocolates",10,"🍫"],
+["Milky Bar ₹10","Chocolates",10,"🍫"],
+["Exo Round","Dish Cleaners",50,"🧽"],
+["Vim ₹5","Dish Cleaners",5,"🧽"],
+["Vim ₹10","Dish Cleaners",10,"🧽"],
+["Vim ₹15","Dish Cleaners",15,"🧽"],
+["Vim ₹30","Dish Cleaners",30,"🧽"],
+["Surf Excel ₹10","Dish Cleaners",10,"🧺"],
+["Rin ₹10","Dish Cleaners",10,"🧺"],
+["Dove Soap","Bathing Soap",45,"🧼"],
+["Hamam Soap","Bathing Soap",55,"🧼"]
+];
+let products=JSON.parse(localStorage.getItem("dd_products_v3")||"null")||defaults;
+let cart=JSON.parse(localStorage.getItem("dd_cart_v3")||"{}"),orders=JSON.parse(localStorage.getItem("dd_orders_v3")||"[]"),cat="";
+function save(){localStorage.setItem("dd_products_v3",JSON.stringify(products));localStorage.setItem("dd_cart_v3",JSON.stringify(cart));localStorage.setItem("dd_orders_v3",JSON.stringify(orders))}
+function render(){let q=document.getElementById("search").value.toLowerCase();let a=products.map((p,i)=>({p,i})).filter(x=>(!cat||x.p[1]===cat)&&x.p[0].toLowerCase().includes(q));document.getElementById("badge").innerHTML=cat?`<span class="badge">${cat}</span>`:"";document.getElementById("grid").innerHTML=a.map(x=>{let p=x.p;let price=p[2]===null?"Price to be set":"₹"+p[2];return `<div class="card"><div class="pic">${p[3]}</div><h3>${p[0]}</h3><div class="muted">${p[1]}</div><div class="price">${price}</div><button class="add" ${p[2]===null?"disabled":""} onclick="add(${x.i})">${p[2]===null?"Set price first":"Add to Cart"}</button></div>`}).join("")||"<p>No products found.</p>"}
+function setCat(c){cat=cat===c?"":c;document.getElementById("products").scrollIntoView();render()}
+function add(i){cart[i]=(cart[i]||0)+1;save();count();alert("Added to cart")}
+function count(){document.getElementById("count").textContent=Object.values(cart).reduce((a,b)=>a+b,0)}
+function show(id){document.getElementById(id).style.display="flex"}function closeM(id){document.getElementById(id).style.display="none"}
+function openCart(){let total=0;let keys=Object.keys(cart);document.getElementById("cart").innerHTML=keys.length?keys.map(k=>{let p=products[k],s=p[2]*cart[k];total+=s;return `<div class="cartrow"><div>${p[3]} <b>${p[0]}</b><br>₹${p[2]} × ${cart[k]}</div><div class="qty"><button onclick="change(${k},-1)">−</button> ${cart[k]} <button onclick="change(${k},1)">+</button></div></div>`}).join(""):"<p>Your cart is empty.</p>";document.getElementById("total").textContent="Total: ₹"+total;show("cartModal")}
+function change(i,n){cart[i]=(cart[i]||0)+n;if(cart[i]<=0)delete cart[i];save();count();openCart()}
+function checkout(){if(!Object.keys(cart).length)return alert("Your cart is empty.");let t=Object.keys(cart).reduce((s,k)=>s+products[k][2]*cart[k],0);document.getElementById("amount").textContent="Total: ₹"+t;closeM("cartModal");show("checkoutModal")}
+function placeOrder(){let n=document.getElementById("name").value.trim(),p=document.getElementById("phone").value.trim(),a=document.getElementById("address").value.trim();if(!n||!p||!a)return alert("Please fill delivery details.");let t=Object.keys(cart).reduce((s,k)=>s+products[k][2]*cart[k],0);orders.unshift({id:"DD"+Date.now().toString().slice(-7),date:new Date().toLocaleString(),total:t,address:a,status:"Confirmed"});cart={};save();count();closeM("checkoutModal");alert("Order placed successfully!");openOrders()}
+function openOrders(){document.getElementById("orders").innerHTML=orders.length?orders.map(o=>`<div class="cartrow"><div><b>${o.id}</b><br>${o.date}<br>₹${o.total} • ${o.status}<br>${o.address}</div></div>`).join(""):"<p>No orders yet.</p>";show("ordersModal")}
+function openAdmin(){let box=document.getElementById("admin");box.innerHTML=products.map((p,i)=>`<div class="cartrow"><div>${p[3]} <b>${p[0]}</b><br><input class="field" style="max-width:150px" type="number" value="${p[2]??""}" placeholder="Set price" id="price${i}"></div><button onclick="updatePrice(${i})">Save</button></div>`).join("");show("adminModal")}
+function updatePrice(i){let v=Number(document.getElementById("price"+i).value);if(!v)return alert("Enter a valid price.");products[i][2]=v;save();render();openAdmin();alert("Price updated")}
+function addProduct(){let n=document.getElementById("newName").value.trim(),p=Number(document.getElementById("newPrice").value),c=document.getElementById("newCat").value,e=document.getElementById("newEmoji").value||"🛒";if(!n||!p)return alert("Enter product and price.");products.push([n,c,p,e]);save();render();openAdmin();alert("Product added")}
+render();count();
+</script>
+</body>
+</html>
